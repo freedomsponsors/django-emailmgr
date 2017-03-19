@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.contrib import messages as Msg
 from django.http import HttpResponseRedirect
@@ -28,13 +28,11 @@ def email_add(request):
     else:
         form = EmailAddressForm(user=request.user)
     emails_list = EmailAddress.objects.filter(user=request.user).order_by(*sort_email())
-    return render_to_response(get_template('emailmgr_email_list.html'),
+    return render(request, get_template('emailmgr_email_list.html'),
                               {
                                 'email_list': emails_list,
                                 'email_form': form
-                              },
-                              context_instance=RequestContext(request)
-                              )
+                              })
 
 @login_required
 def email_make_primary(request, identifier="somekey"):
@@ -137,20 +135,8 @@ def email_list(request):
     """
     form = EmailAddressForm(user=request.user)
     emails_list = EmailAddress.objects.filter(user=request.user).order_by(*sort_email())
-    return render_to_response(get_template('emailmgr_email_list.html'),
+    return render(request, get_template('emailmgr_email_list.html'),
                               {
                                 'email_list': emails_list,
                                 'email_form': form
-                              },
-                              context_instance=RequestContext(request)
-                              )
-
-
-
-
-
-
-
-
-
-
+                              })
